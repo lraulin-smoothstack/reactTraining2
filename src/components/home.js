@@ -1,13 +1,14 @@
-"use strict"
+"use strict";
 
-import React from 'react';
+import React from "react";
+import PropTypes from "prop-types";
 
-export class Home extends React.Component{
-    render() {
-        return(
-            <div className="jumbotron">
-                <h1>Library Management System</h1>
-            </div>
-        );
-    }
-}
+export const Home = ({ title = "[Page Title]" }) => (
+  <div className="jumbotron">
+    <h1>{title}</h1>
+  </div>
+);
+
+Home.propTypes = {
+  title: PropTypes.string,
+};
