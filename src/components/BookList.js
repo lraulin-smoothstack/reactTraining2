@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { bookActions } from "../actions/bookActions";
 import { makeBook } from "../factories";
+import AddModal from "./AddModal";
 
 const emptyBook = makeBook();
 
@@ -63,6 +64,7 @@ export const BookList = ({ book = emptyBook } = {}) => {
 
   return (
     <div>
+      <AddModal />
       <h1>Books</h1>
       {content}
     </div>
