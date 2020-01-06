@@ -3,17 +3,20 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { bookActions } from "../actions/bookActions";
+import { makeBook } from "../factories";
 
-export const BookList = ({ book }) => {
-  const createBookRow = book => {
-    return (
-      <tr key={book.book_id}>
-        <td> {book.book_id} </td>
-        <td> {book.title} </td>
-        <td> {book.author} </td>
-      </tr>
-    );
-  };
+const emptyBook = makeBook();
+
+export const BookList = ({ book = emptyBook } = {}) => {
+  const createBookRow = book => (
+    <tr key={book.id}>
+      <td> {book.id} </td>
+      <td> {book.title} </td>
+      <td> {book.author} </td>
+      <td> {book.publisher} </td>
+      <td> {book.pages} </td>
+    </tr>
+  );
 
   // componentDidMount() {
   // bookActions.readBooks();
