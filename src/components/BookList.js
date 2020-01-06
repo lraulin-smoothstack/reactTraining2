@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import { bookActions } from "../actions/bookActions";
 
 export const BookList = ({ book }) => {
-  console.log(JSON.stringify(book));
   const createBookRow = book => {
     return (
       <tr key={book.book_id}>
@@ -42,6 +41,8 @@ export const BookList = ({ book }) => {
             <th>ID</th>
             <th>Title</th>
             <th>Author</th>
+            <th>Publisher</th>
+            <th>Pages</th>
           </tr>
         </thead>
         <tbody>{book.bookList.map(createBookRow)}</tbody>
