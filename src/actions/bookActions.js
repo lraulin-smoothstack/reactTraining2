@@ -13,7 +13,7 @@ export const bookActions = {
       actionType: bookActionTypes.READ_BOOKS_STARTED,
     });
     axios
-      .get(`http://www.mocky.io/v2/5daca80c30000092002987ad`)
+      .get("http://localhost:3000/book")
       .then(res => {
         Dispatcher.dispatch({
           actionType: bookActionTypes.READ_BOOKS_SUCCESSFUL,
