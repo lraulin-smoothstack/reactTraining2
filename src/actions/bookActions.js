@@ -7,7 +7,7 @@ export const bookActionTypes = {
   READ_BOOKS_FAILURE: "read_books_failure",
 };
 
-const BooksActions = {
+export const bookActions = {
   readBooks: function() {
     Dispatcher.dispatch({
       actionType: bookActionTypes.READ_BOOKS_STARTED,
@@ -28,5 +28,3 @@ const BooksActions = {
       });
   },
 };
-
-module.exports = BooksActions;

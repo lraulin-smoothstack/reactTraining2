@@ -2,7 +2,7 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import BookActions from "../actions/bookActions";
+import { bookActions } from "../actions/bookActions";
 
 export class BookList extends React.Component {
   createBookRow(book) {
@@ -16,7 +16,7 @@ export class BookList extends React.Component {
   }
 
   componentDidMount() {
-    BookActions.readBooks();
+    bookActions.readBooks();
   }
 
   render() {
