@@ -18,6 +18,31 @@ const initialState = {
   error: "",
 };
 
+// const list1 = {
+//   bookList: [
+//     { book_id: 1, title: "Harry Potter", author: "JK . Rowling" },
+//     { book_id: 2, title: "Lord of The Rings", author: "Tolkien" },
+//     { book_id: 3, title: "Matrix", author: "Lana Wachowski" },
+//     { book_id: 30, title: "anotherNewBook", author: "someAuthor" },
+//   ],
+//   readState: { pending: false, success: true, failure: false },
+//   error: "",
+// };
+// const list2 = {
+//   bookList: [
+//     { book_id: 1, title: "FAKE BOOK", author: "JK . Rowling" },
+//     { book_id: 2, title: "Dude wheres my car", author: "Tolkien" },
+//     {
+//       book_id: 3,
+//       title: "Matrix reloaded was terrible",
+//       author: "Lana Wachowski",
+//     },
+//     { book_id: 30, title: "anotherNewBook", author: "someAuthor" },
+//   ],
+//   readState: { pending: false, success: true, failure: false },
+//   error: "",
+// };
+
 export const App = () => {
   const [book, setBook] = useState(initialState);
 
@@ -42,10 +67,7 @@ export const App = () => {
           path="/"
           render={() => <Home title="Library Management System" />}
         />
-        <Route
-          path="/books"
-          render={props => <BookList {...props} book={book} />}
-        />
+        <Route path="/books" render={() => <BookList book={book} />} />
       </Switch>
     </div>
   );
