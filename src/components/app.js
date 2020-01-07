@@ -46,15 +46,15 @@ const initialState = {
 export const App = () => {
   const [book, setBook] = useState(initialState);
 
-  const _onBookChange = () => setBook(BookStore.getAllBooks());
+  const onBookChange = () => setBook(BookStore.getAllBooks());
 
   // Once after mounting
-  useEffect(() => BookStore.addChangeListener(_onBookChange), []);
+  useEffect(() => BookStore.addChangeListener(onBookChange), []);
 
   // Before component is removed
   useEffect(() => {
     return () => {
-      BookStore.removeChangeListener(_onBookChange);
+      BookStore.removeChangeListener(onBookChange);
     };
   }, []);
 

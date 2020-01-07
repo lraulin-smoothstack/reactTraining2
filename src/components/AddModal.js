@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
+import { makeNewBook } from "../factories";
+import BookStore from "../stores/bookStore";
+import { bookActionTypes } from "../actions/bookActions";
 
 const customStyles = {
   content: {
@@ -16,24 +19,34 @@ const customStyles = {
 Modal.setAppElement("#app");
 
 const AddModal = () => {
-  var subtitle;
-  const [modalIsOpen, setIsOpen] = React.useState(false);
-  function openModal() {
-    setIsOpen(true);
-  }
+  let subtitle;
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [newBook, setNewBook] = useState(makeNewBook());
 
-  function afterOpenModal() {
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const afterOpenModal = () => {
     // references are now sync'd and can be accessed.
     subtitle.style.color = "#f00";
-  }
+  };
 
-  function closeModal() {
+  const closeModal = () => {
     setIsOpen(false);
-  }
+  };
+
+  const handleChange = event => {
+    const book = { ...newBook };
+    book[event.target.name] = event.target.value;
+    setNewBook(book);
+  };
+
+  const onSubmit = () => null;
 
   return (
     <div>
-      <button onClick={openModal}>Open Modal</button>
+      <button onClick={openModal}>Add Book</button>
       <Modal
         isOpen={modalIsOpen}
         onAfterOpen={afterOpenModal}
@@ -41,15 +54,17 @@ const AddModal = () => {
         style={customStyles}
         contentLabel="Example Modal"
       >
-        <h2 ref={_subtitle => (subtitle = _subtitle)}>Hello</h2>
+        <h2 ref={_subtitle => (subtitle = _subtitle)}>Add Book</h2>
         <button onClick={closeModal}>close</button>
-        <div>I am a modal</div>
         <form>
-          <input />
-          <button>tab navigation</button>
-          <button>stays</button>
-          <button>inside</button>
-          <button>the modal</button>
+          {/* TITLE */}
+          <input
+            type="text"
+            name="title"
+            value={newBook.title}
+            onChange={event => handleChange(event)}
+          />
+          <button onClick={() => undefined}>Save</button>
         </form>
       </Modal>
     </div>
