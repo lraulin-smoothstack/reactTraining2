@@ -62,6 +62,8 @@ Dispatcher.register(action => {
       _bookStore.book.readState.pending = true;
       BookStore.emitChange();
       break;
+    case bookActionTypes.CREATE_BOOK:
+      break;
     default:
       return;
   }

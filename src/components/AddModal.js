@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import { makeNewBook } from "../factories";
-import BookStore from "../stores/bookStore";
-import { bookActionTypes } from "../actions/bookActions";
+import { bookActions } from "../actions/bookActions";
 
 const customStyles = {
   content: {
@@ -42,7 +41,9 @@ const AddModal = () => {
     setNewBook(book);
   };
 
-  const onSubmit = () => null;
+  const onSubmit = () => {
+    bookActions.addBook(newBook);
+  };
 
   return (
     <div>
@@ -56,15 +57,47 @@ const AddModal = () => {
       >
         <h2 ref={_subtitle => (subtitle = _subtitle)}>Add Book</h2>
         <button onClick={closeModal}>close</button>
+        For Development&gt;&gt;&gt;
+        <br />
+        {newBook.title}
+        <br />
+        {newBook.author}
+        <br />
+        {newBook.publisher}
+        <br />
+        {newBook.pages}
+        <br />
+        &lt;&lt;&lt;End For Development
         <form>
-          {/* TITLE */}
+          Title:{" "}
           <input
             type="text"
             name="title"
             value={newBook.title}
-            onChange={event => handleChange(event)}
+            onChange={e => handleChange(e)}
           />
-          <button onClick={() => undefined}>Save</button>
+          Author:{" "}
+          <input
+            type="text"
+            name="author"
+            value={newBook.author}
+            onChange={e => handleChange(e)}
+          />
+          Publisher:{" "}
+          <input
+            type="text"
+            name="publisher"
+            value={newBook.publisher}
+            onChange={e => handleChange(e)}
+          />
+          Pages:{" "}
+          <input
+            type="number"
+            name="pages"
+            value={newBook.pages}
+            onChange={e => handleChange(e)}
+          />
+          <button onClick={() => onSubmit()}>Save</button>
         </form>
       </Modal>
     </div>

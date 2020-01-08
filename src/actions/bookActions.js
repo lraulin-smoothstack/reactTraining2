@@ -1,17 +1,20 @@
 import Dispatcher from "../dispatcher/appDispatcher";
 import axios from "axios";
-import { makeBook } from "../factories";
+import { makeNewBook } from "../factories";
 
-const emptyBook = makeBook(); // for type hints
+const emptyBook = makeNewBook(); // for type hints
 
 export const bookActionTypes = {
   READ_BOOKS_STARTED: "read_books_started",
   READ_BOOKS_SUCCESSFUL: "read_books_successful",
   READ_BOOKS_FAILURE: "read_books_failure",
-  ADD_BOOK_STARTED: "add_book_started",
-  ADD_BOOK_SUCCESSFUL: "add_book_successful",
-  ADD_BOOK_FAILURE: "add_book_failure",
+  CREATE_BOOK: "create_book",
 };
+
+export const createNewBookAction = (book = emptyBook) => ({
+  type: bookActionTypes.CREATE_BOOK,
+  value: book,
+});
 
 export const bookActions = {
   readBooks: () => {
@@ -34,18 +37,14 @@ export const bookActions = {
       });
   },
   addBook: (book = emptyBook) => {
-    Dispatcher.dispatch({
-      actionType: bookActionTypes.ADD_BOOK_STARTED,
-    });
     axios
       .post(
         `http://localhost:3000/book/${book.title}/${book.author}/${book.publisher}/${book.pages}`,
       )
       .then(result => {
-        Dispatcher.dispatch({
-          actionType: bookActionTypes.ADD_BOOK_SUCCESSFUL,
-          data: result.data,
-        });
+        console.log("Book added successfully!");
+        console.log(result);
+        Dispatcher.dispatch(createNewBookAction(book));
       })
       .catch(error => {
         console.log(error);
