@@ -2,6 +2,7 @@ import Dispatcher from "../dispatcher/appDispatcher";
 import axios from "axios";
 import { makeNewBook } from "../factories";
 
+const ROOT_URL = "http://localhost:3000/book";
 const emptyBook = makeNewBook(); // for type hints
 
 export const bookActionTypes = {
@@ -9,11 +10,17 @@ export const bookActionTypes = {
   READ_BOOKS_SUCCESSFUL: "read_books_successful",
   READ_BOOKS_FAILURE: "read_books_failure",
   CREATE_BOOK: "create_book",
+  DELETE_BOOK: "delete_book",
 };
 
 export const createNewBookAction = (book = emptyBook) => ({
   type: bookActionTypes.CREATE_BOOK,
   value: book,
+});
+
+export const createDeleteBookAction = (id = -1) => ({
+  type: bookActionTypes.DELETE_BOOK,
+  value: id,
 });
 
 export const bookActions = {
@@ -22,7 +29,7 @@ export const bookActions = {
       actionType: bookActionTypes.READ_BOOKS_STARTED,
     });
     axios
-      .get("http://localhost:3000/book")
+      .get(`${ROOT_URL}`)
       .then(res => {
         Dispatcher.dispatch({
           actionType: bookActionTypes.READ_BOOKS_SUCCESSFUL,
@@ -39,18 +46,19 @@ export const bookActions = {
   addBook: (book = emptyBook) => {
     axios
       .post(
-        `http://localhost:3000/book/${book.title}/${book.author}/${book.publisher}/${book.pages}`,
+        `${ROOT_URL}/${book.title}/${book.author}/${book.publisher}/${book.pages}`,
       )
-      .then(result => {
-        console.log("Book added successfully!");
-        console.log(result);
+      .then(() => {
         Dispatcher.dispatch(createNewBookAction(book));
       })
-      .catch(error => {
-        console.log(error);
-        Dispatcher.dispatch({
-          actionType: bookActionTypes.ADD_BOOK_FAILURE,
-        });
-      });
+      .catch(error => console.log(error));
+  },
+  deleteBook: (id = -1) => {
+    axios
+      .delete(`${ROOT_URL}/${id}`)
+      .then(() => {
+        Dispatcher.dispatch(createDeleteBookAction(id));
+      })
+      .catch(error => console.log(error));
   },
 };

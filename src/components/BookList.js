@@ -9,6 +9,10 @@ import AddModal from "./AddModal";
 const emptyBook = makeBook();
 
 export const BookList = ({ book = emptyBook } = {}) => {
+  const onClickDelete = id => bookActions.deleteBook(id);
+
+  const onClickEdit = id => bookActions.editBook(id);
+
   const createBookRow = book => (
     <tr key={book.id}>
       <td> {book.id} </td>
@@ -16,15 +20,19 @@ export const BookList = ({ book = emptyBook } = {}) => {
       <td> {book.author} </td>
       <td> {book.publisher} </td>
       <td> {book.pages} </td>
+      <td>
+        <button onClick={() => onClickEdit(book.id)}>
+          <i className="far fa-edit"></i>
+        </button>
+      </td>
+      <td>
+        <button onClick={() => onClickDelete(book.id)}>X</button>
+      </td>
     </tr>
   );
 
-  // componentDidMount() {
-  // bookActions.readBooks();
-  // }
   useEffect(() => bookActions.readBooks(), []);
 
-  // render() {
   let content = "";
 
   if (book.readState.pending) {
