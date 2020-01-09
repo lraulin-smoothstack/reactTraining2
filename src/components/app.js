@@ -47,7 +47,6 @@ export const App = () => {
               readStateIsPending={readStateIsPending}
               readStateIsSuccess={readStateIsSuccess}
               readBooksError={readBooksError}
-              onBookChange={() => onBookChange()}
             />
           )}
         />
