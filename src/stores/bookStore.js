@@ -65,6 +65,10 @@ Dispatcher.register(action => {
       BookStore.emitChange();
       break;
     case bookActionTypes.CREATE_BOOK:
+      BookStore.emitChange();
+      break;
+    case bookActionTypes.DELETE_BOOK:
+      BookStore.emitChange();
       break;
     default:
       return;

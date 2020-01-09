@@ -27,11 +27,7 @@ export const App = () => {
   useEffect(() => BookStore.addChangeListener(onBookChange), []);
 
   // Before component is removed
-  useEffect(() => {
-    return () => {
-      BookStore.removeChangeListener(onBookChange);
-    };
-  }, []);
+  useEffect(() => () => BookStore.removeChangeListener(onBookChange), []);
 
   return (
     <div>
@@ -51,6 +47,7 @@ export const App = () => {
               readStateIsPending={readStateIsPending}
               readStateIsSuccess={readStateIsSuccess}
               readBooksError={readBooksError}
+              onBookChange={() => onBookChange()}
             />
           )}
         />

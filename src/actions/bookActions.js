@@ -11,6 +11,7 @@ export const bookActionTypes = {
   READ_BOOKS_FAILURE: "read_books_failure",
   CREATE_BOOK: "create_book",
   DELETE_BOOK: "delete_book",
+  UPDATE_BOOK: "update_book",
 };
 
 export const createNewBookAction = (book = emptyBook) => ({
@@ -24,12 +25,12 @@ export const createDeleteBookAction = (id = 0) => ({
 });
 
 export const createUpdateBookAction = (book = emptyBookWithId) => ({
-  type: bookActionTypes.DELETE_BOOK,
+  type: bookActionTypes.UPDATE_BOOK,
   value: book,
 });
 
 export const bookActions = {
-  readBooks: () => {
+  readBooks() {
     Dispatcher.dispatch({
       actionType: bookActionTypes.READ_BOOKS_STARTED,
     });
@@ -48,25 +49,34 @@ export const bookActions = {
         });
       });
   },
-  addBook: (book = emptyBook) => {
+  addBook(book = emptyBook) {
     axios
       .post(
         `${ROOT_URL}/${book.title}/${book.author}/${book.publisher}/${book.pages}`,
       )
-      .then(() => Dispatcher.dispatch(createNewBookAction(book)))
+      .then(() => {
+        Dispatcher.dispatch(createNewBookAction(book));
+        this.readBooks();
+      })
       .catch(error => console.log(error));
   },
-  deleteBook: (id = -1) => {
+  deleteBook(id = -1) {
     axios
       .delete(`${ROOT_URL}/${id}`)
-      .then(() => Dispatcher.dispatch(createDeleteBookAction(id)))
+      .then(() => {
+        Dispatcher.dispatch(createDeleteBookAction(id));
+        this.readBooks();
+      })
       .catch(error => console.log(error));
   },
-  updateBook: (book = emptyBookWithId) => {
+  updateBook(book = emptyBookWithId) {
     const url = `${ROOT_URL}/${book.id}/${book.title}/${book.author}/${book.publisher}/${book.pages}`;
     axios
       .put(url)
-      .then(() => Dispatcher.dispatch(createUpdateBookAction(book)))
+      .then(() => {
+        Dispatcher.dispatch(createUpdateBookAction(book));
+        this.readBooks();
+      })
       .catch(error => console.log(error));
   },
 };
