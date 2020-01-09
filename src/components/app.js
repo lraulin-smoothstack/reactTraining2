@@ -8,45 +8,20 @@ import { Home } from "./Home.js";
 import { BookList } from "./BookList";
 import BookStore from "../stores/bookStore";
 
-const initialState = {
-  bookList: [],
-  readState: {
-    pending: false,
-    success: false,
-    failure: false,
-  },
-  error: "",
-};
-
-// const list1 = {
-//   bookList: [
-//     { book_id: 1, title: "Harry Potter", author: "JK . Rowling" },
-//     { book_id: 2, title: "Lord of The Rings", author: "Tolkien" },
-//     { book_id: 3, title: "Matrix", author: "Lana Wachowski" },
-//     { book_id: 30, title: "anotherNewBook", author: "someAuthor" },
-//   ],
-//   readState: { pending: false, success: true, failure: false },
-//   error: "",
-// };
-// const list2 = {
-//   bookList: [
-//     { book_id: 1, title: "FAKE BOOK", author: "JK . Rowling" },
-//     { book_id: 2, title: "Dude wheres my car", author: "Tolkien" },
-//     {
-//       book_id: 3,
-//       title: "Matrix reloaded was terrible",
-//       author: "Lana Wachowski",
-//     },
-//     { book_id: 30, title: "anotherNewBook", author: "someAuthor" },
-//   ],
-//   readState: { pending: false, success: true, failure: false },
-//   error: "",
-// };
-
 export const App = () => {
-  const [book, setBook] = useState(initialState);
+  const [bookList, setBookList] = useState([]);
+  const [readStateIsPending, setReadStateIsPending] = useState(false);
+  const [readStateIsSuccess, setReadStateIsSuccess] = useState(false);
+  const [readStateIsFailure, setReadStateIsFailure] = useState(false);
+  const [readBooksError, setReadBooksError] = useState("");
 
-  const onBookChange = () => setBook(BookStore.getAllBooks());
+  const onBookChange = () => {
+    const data = BookStore.getAllBooks();
+    setBookList(data.bookList);
+    setReadStateIsPending(data.readState.pending);
+    setReadStateIsSuccess(data.readState.success);
+    setReadStateIsFailure(data.readState.failure);
+  };
 
   // Once after mounting
   useEffect(() => BookStore.addChangeListener(onBookChange), []);
@@ -67,7 +42,18 @@ export const App = () => {
           path="/"
           render={() => <Home title="Library Management System" />}
         />
-        <Route path="/books" render={() => <BookList book={book} />} />
+        <Route
+          path="/books"
+          render={() => (
+            <BookList
+              bookList={bookList}
+              readStateIsFailure={readStateIsFailure}
+              readStateIsPending={readStateIsPending}
+              readStateIsSuccess={readStateIsSuccess}
+              readBooksError={readBooksError}
+            />
+          )}
+        />
       </Switch>
     </div>
   );

@@ -1,7 +1,12 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit as editIcon } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-modal";
-import { makeNewBook } from "../factories";
 import { bookActions } from "../actions/bookActions";
+import { makeBook } from "../factories";
+
+const emptyBook = makeBook();
 
 const customStyles = {
   content: {
@@ -17,10 +22,10 @@ const customStyles = {
 // Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement("#app");
 
-const AddModal = () => {
+const EditModal = ({ book = emptyBook } = {}) => {
   let subtitle;
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [newBook, setNewBook] = useState(makeNewBook());
+  const [newBook, setNewBook] = useState(book);
 
   const openModal = () => {
     setIsOpen(true);
@@ -42,18 +47,20 @@ const AddModal = () => {
   };
 
   const onSubmit = () => {
-    bookActions.addBook(newBook);
+    bookActions.updateBook(newBook);
   };
 
   return (
-    <div>
-      <button onClick={openModal}>Add Book</button>
+    <span>
+      <button onClick={openModal}>
+        <FontAwesomeIcon icon={editIcon} />
+      </button>
       <Modal
         isOpen={modalIsOpen}
         onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
         style={customStyles}
-        contentLabel="Add Book Modal"
+        contentLabel="Edit Book Modal"
       >
         <h2 ref={_subtitle => (subtitle = _subtitle)}>Add Book</h2>
         <button onClick={closeModal}>close</button>
@@ -89,8 +96,12 @@ const AddModal = () => {
           <button onClick={() => onSubmit()}>Save</button>
         </form>
       </Modal>
-    </div>
+    </span>
   );
 };
 
-export default AddModal;
+EditModal.propTypes = {
+  book: PropTypes.object.isRequired,
+};
+
+export default EditModal;

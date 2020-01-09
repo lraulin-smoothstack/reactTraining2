@@ -14,7 +14,7 @@ export const makeNewBook = ({
 
 // For filling an object from database data
 export const makeBook = ({
-  id = -1,
+  id = 0,
   title = "",
   author = "",
   publisher = "",

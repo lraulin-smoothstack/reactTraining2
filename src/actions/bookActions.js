@@ -1,9 +1,9 @@
 import Dispatcher from "../dispatcher/appDispatcher";
 import axios from "axios";
-import { makeNewBook } from "../factories";
+import { makeNewBook, makeBook } from "../factories";
 
 const ROOT_URL = "http://localhost:3000/book";
-const emptyBook = makeNewBook(); // for type hints
+const [emptyBook, emptyBookWithId] = [makeNewBook(), makeBook()];
 
 export const bookActionTypes = {
   READ_BOOKS_STARTED: "read_books_started",
@@ -18,9 +18,14 @@ export const createNewBookAction = (book = emptyBook) => ({
   value: book,
 });
 
-export const createDeleteBookAction = (id = -1) => ({
+export const createDeleteBookAction = (id = 0) => ({
   type: bookActionTypes.DELETE_BOOK,
   value: id,
+});
+
+export const createUpdateBookAction = (book = emptyBookWithId) => ({
+  type: bookActionTypes.DELETE_BOOK,
+  value: book,
 });
 
 export const bookActions = {
@@ -48,17 +53,20 @@ export const bookActions = {
       .post(
         `${ROOT_URL}/${book.title}/${book.author}/${book.publisher}/${book.pages}`,
       )
-      .then(() => {
-        Dispatcher.dispatch(createNewBookAction(book));
-      })
+      .then(() => Dispatcher.dispatch(createNewBookAction(book)))
       .catch(error => console.log(error));
   },
   deleteBook: (id = -1) => {
     axios
       .delete(`${ROOT_URL}/${id}`)
-      .then(() => {
-        Dispatcher.dispatch(createDeleteBookAction(id));
-      })
+      .then(() => Dispatcher.dispatch(createDeleteBookAction(id)))
+      .catch(error => console.log(error));
+  },
+  updateBook: (book = emptyBookWithId) => {
+    const url = `${ROOT_URL}/${book.id}/${book.title}/${book.author}/${book.publisher}/${book.pages}`;
+    axios
+      .put(url)
+      .then(() => Dispatcher.dispatch(createUpdateBookAction(book)))
       .catch(error => console.log(error));
   },
 };

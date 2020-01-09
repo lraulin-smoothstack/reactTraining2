@@ -4,7 +4,7 @@ import { bookActionTypes } from "../actions/bookActions";
 
 const CHANGE_EVENT = "change";
 
-let _bookStore = {
+export const createInitialBookStoreState = () => ({
   book: {
     bookList: [],
     readState: {
@@ -14,7 +14,9 @@ let _bookStore = {
     },
     error: "",
   },
-};
+});
+
+let _bookStore = createInitialBookStoreState();
 
 class BookStoreClass extends EventEmitter {
   addChangeListener(cb) {
