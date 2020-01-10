@@ -1,6 +1,8 @@
 import Dispatcher from "../dispatcher/appDispatcher";
+import axios from "axios";
 import { makeNewBook, makeBook } from "../factories";
 
+const ROOT_URL = "http://localhost:3000/book";
 const [emptyBook, emptyBookWithId] = [makeNewBook(), makeBook()];
 
 export const bookActionTypes = {
@@ -12,35 +14,64 @@ export const bookActionTypes = {
   UPDATE_BOOK: "update_book",
 };
 
+export const createNewBookAction = (book = emptyBook) => ({
+  type: bookActionTypes.CREATE_BOOK,
+  value: book,
+});
+
+export const createDeleteBookAction = (id = 0) => ({
+  type: bookActionTypes.DELETE_BOOK,
+  value: id,
+});
+
+export const createUpdateBookAction = (book = emptyBookWithId) => ({
+  type: bookActionTypes.UPDATE_BOOK,
+  value: book,
+});
+
 export const bookActions = {
   readBooks() {
+    const data = [
+      {
+        id: 1,
+        title: "Composing Software",
+        author: "Eric Elliot",
+        publisher: "Leanpub",
+        pages: 257,
+      },
+      {
+        id: 2,
+        title: "How JavaScript Works",
+        author: "Douglas Crockford",
+        publisher: "Leanpub",
+        pages: 453,
+      },
+      {
+        id: 3,
+        title: "Design Patterns",
+        author: "Gang of Four",
+        publisher: "O'Reilly",
+        pages: 999,
+      },
+    ];
+
     Dispatcher.dispatch({
       actionType: bookActionTypes.READ_BOOKS_STARTED,
     });
 
     Dispatcher.dispatch({
       actionType: bookActionTypes.READ_BOOKS_SUCCESSFUL,
+      data,
     });
   },
   addBook(book = emptyBook) {
-    console.log("Adding book...");
-    Dispatcher.dispatch({
-      actionType: bookActionTypes.CREATE_BOOK,
-      data: book,
-    });
+    Dispatcher.dispatch(createNewBookAction(book));
   },
   deleteBook(id = 0) {
-    console.log("Deleting book #" + id);
-    Dispatcher.dispatch({
-      actionType: bookActionTypes.DELETE_BOOK,
-      data: id,
-    });
+    Dispatcher.dispatch(createDeleteBookAction(id));
+    this.readBooks();
   },
   updateBook(book = emptyBookWithId) {
-    console.log("Updating book...");
-    Dispatcher.dispatch({
-      actionType: bookActionTypes.UPDATE_BOOK,
-      data: book,
-    });
+    Dispatcher.dispatch(createUpdateBookAction(book));
   },
 };
