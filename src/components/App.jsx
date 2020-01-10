@@ -24,7 +24,9 @@ export const App = () => {
   };
 
   // Once after mounting
-  useEffect(() => BookStore.addChangeListener(onBookChange), []);
+  useEffect(() => {
+    BookStore.addChangeListener(onBookChange);
+  }, []);
 
   // Before component is removed
   useEffect(() => () => BookStore.removeChangeListener(onBookChange), []);
