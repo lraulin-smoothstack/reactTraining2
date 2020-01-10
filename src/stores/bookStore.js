@@ -81,6 +81,9 @@ Dispatcher.register(action => {
       }
       break;
     case bookActionTypes.DELETE_BOOK:
+      _bookStore.book.bookList = _bookStore.book.bookList.filter(
+        b => b.id !== action.data,
+      );
       BookStore.emitChange();
       break;
     default:
