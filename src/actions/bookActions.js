@@ -31,52 +31,47 @@ export const createUpdateBookAction = (book = emptyBookWithId) => ({
 
 export const bookActions = {
   readBooks() {
+    const data = [
+      {
+        id: 1,
+        title: "Composing Software",
+        author: "Eric Elliot",
+        publisher: "Leanpub",
+        pages: 257,
+      },
+      {
+        id: 2,
+        title: "How JavaScript Works",
+        author: "Douglas Crockford",
+        publisher: "Leanpub",
+        pages: 453,
+      },
+      {
+        id: 3,
+        title: "Design Patterns",
+        author: "Gang of Four",
+        publisher: "O'Reilly",
+        pages: 999,
+      },
+    ];
+
     Dispatcher.dispatch({
       actionType: bookActionTypes.READ_BOOKS_STARTED,
     });
-    axios
-      .get(`${ROOT_URL}`)
-      .then(res => {
-        Dispatcher.dispatch({
-          actionType: bookActionTypes.READ_BOOKS_SUCCESSFUL,
-          data: res.data,
-        });
-      })
-      .catch(error => {
-        console.log(error);
-        Dispatcher.dispatch({
-          actionType: bookActionTypes.READ_BOOKS_FAILURE,
-        });
-      });
+
+    Dispatcher.dispatch({
+      actionType: bookActionTypes.READ_BOOKS_SUCCESSFUL,
+      data,
+    });
   },
   addBook(book = emptyBook) {
-    axios
-      .post(
-        `${ROOT_URL}/${book.title}/${book.author}/${book.publisher}/${book.pages}`,
-      )
-      .then(() => {
-        Dispatcher.dispatch(createNewBookAction(book));
-        this.readBooks();
-      })
-      .catch(error => console.log(error));
+    Dispatcher.dispatch(createNewBookAction(book));
   },
-  deleteBook(id = -1) {
-    axios
-      .delete(`${ROOT_URL}/${id}`)
-      .then(() => {
-        Dispatcher.dispatch(createDeleteBookAction(id));
-        this.readBooks();
-      })
-      .catch(error => console.log(error));
+  deleteBook(id = 0) {
+    Dispatcher.dispatch(createDeleteBookAction(id));
+    this.readBooks();
   },
   updateBook(book = emptyBookWithId) {
-    const url = `${ROOT_URL}/${book.id}/${book.title}/${book.author}/${book.publisher}/${book.pages}`;
-    axios
-      .put(url)
-      .then(() => {
-        Dispatcher.dispatch(createUpdateBookAction(book));
-        this.readBooks();
-      })
-      .catch(error => console.log(error));
+    Dispatcher.dispatch(createUpdateBookAction(book));
   },
 };
