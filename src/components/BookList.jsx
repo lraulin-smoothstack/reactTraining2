@@ -36,7 +36,15 @@ export const BookList = ({
     </tr>
   );
 
-  useEffect(() => bookActions.readBooks(), []);
+  useEffect(() => {
+    bookActions.readBooks();
+    bookActions.addBook({
+      title: "New Book",
+      author: "Test",
+      publisher: "Whatever",
+      pages: 90,
+    });
+  }, []);
 
   let content = "";
 

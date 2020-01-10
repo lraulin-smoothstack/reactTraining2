@@ -21,7 +21,8 @@
     "no-alert": 0,
     "no-lone-blocks": 0,
     "no-console": 0,
-    "react/jsx-uses-vars": ["error"]
+    "react/jsx-uses-vars": ["error"],
+    "react/prop-types": ["warn"]
   },
   "globals": {
     "jQuery": true,
