@@ -16,8 +16,9 @@ export const App = () => {
   const [readBooksError, setReadBooksError] = useState("");
 
   const onBookChange = () => {
-    const data = BookStore.getAllBooks();
-    setBookList(data.bookList);
+    console.log("app.js: BOOKS CHANGED!");
+    const data = { ...BookStore.getAllBooks() };
+    setBookList([...data.bookList]);
     setReadStateIsPending(data.readState.pending);
     setReadStateIsSuccess(data.readState.success);
     setReadStateIsFailure(data.readState.failure);

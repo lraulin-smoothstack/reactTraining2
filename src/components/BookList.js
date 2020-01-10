@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt as deleteIcon } from "@fortawesome/free-solid-svg-icons";
 import { bookActions } from "../actions/bookActions";
 import { makeBook } from "../factories";
-import AddModal from "./AddModal";
+import AddBook from "./AddBook";
 import EditModal from "./EditModal";
 
 const emptyBook = makeBook();
@@ -79,8 +79,8 @@ export const BookList = ({
   return (
     <div>
       <h1>Books</h1>
-      <AddModal />
       {content}
+      <AddBook />
     </div>
   );
 };

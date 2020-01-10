@@ -1,8 +1,6 @@
 import Dispatcher from "../dispatcher/appDispatcher";
-import axios from "axios";
 import { makeNewBook, makeBook } from "../factories";
 
-const ROOT_URL = "http://localhost:3000/book";
 const [emptyBook, emptyBookWithId] = [makeNewBook(), makeBook()];
 
 export const bookActionTypes = {
@@ -15,18 +13,18 @@ export const bookActionTypes = {
 };
 
 export const createNewBookAction = (book = emptyBook) => ({
-  type: bookActionTypes.CREATE_BOOK,
-  value: book,
+  actionType: bookActionTypes.CREATE_BOOK,
+  data: book,
 });
 
 export const createDeleteBookAction = (id = 0) => ({
-  type: bookActionTypes.DELETE_BOOK,
-  value: id,
+  actionType: bookActionTypes.DELETE_BOOK,
+  data: id,
 });
 
 export const createUpdateBookAction = (book = emptyBookWithId) => ({
-  type: bookActionTypes.UPDATE_BOOK,
-  value: book,
+  actionType: bookActionTypes.UPDATE_BOOK,
+  data: book,
 });
 
 export const bookActions = {
@@ -69,9 +67,13 @@ export const bookActions = {
   },
   deleteBook(id = 0) {
     Dispatcher.dispatch(createDeleteBookAction(id));
-    this.readBooks();
   },
   updateBook(book = emptyBookWithId) {
-    Dispatcher.dispatch(createUpdateBookAction(book));
+    console.log(
+      "bookActions.js: preparing to dispatch update book: with action:",
+    );
+    const action = createUpdateBookAction(book);
+    console.log(action);
+    Dispatcher.dispatch(action);
   },
 };

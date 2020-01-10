@@ -25,7 +25,7 @@ Modal.setAppElement("#app");
 const EditModal = ({ book = emptyBook } = {}) => {
   let subtitle;
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [newBook, setNewBook] = useState(book);
+  const [newBook, setNewBook] = useState({ ...book });
 
   const openModal = () => {
     setIsOpen(true);
@@ -46,8 +46,12 @@ const EditModal = ({ book = emptyBook } = {}) => {
     setNewBook(book);
   };
 
-  const onSubmit = () => {
+  const handleSubmit = e => {
+    e.preventDefault();
+    console.log("EditModal: Submitting book update");
+    console.log(newBook);
     bookActions.updateBook(newBook);
+    closeModal();
   };
 
   return (
@@ -62,9 +66,9 @@ const EditModal = ({ book = emptyBook } = {}) => {
         style={customStyles}
         contentLabel="Edit Book Modal"
       >
-        <h2 ref={_subtitle => (subtitle = _subtitle)}>Add Book</h2>
+        <h2 ref={_subtitle => (subtitle = _subtitle)}>Edit Book</h2>
         <button onClick={closeModal}>close</button>
-        <form>
+        <form onSubmit={e => handleSubmit(e)}>
           Title:{" "}
           <input
             type="text"
@@ -93,7 +97,7 @@ const EditModal = ({ book = emptyBook } = {}) => {
             value={newBook.pages}
             onChange={e => handleChange(e)}
           />
-          <button onClick={() => onSubmit()}>Save</button>
+          <input type="submit" value="Submit" />
         </form>
       </Modal>
     </span>

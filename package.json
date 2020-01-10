@@ -4,7 +4,7 @@
   "description": "Library Management System",
   "main": "main.js",
   "scripts": {
-    "start": "gulp"
+    "start": "rm -rf dist && gulp"
   },
   "author": "",
   "license": "",

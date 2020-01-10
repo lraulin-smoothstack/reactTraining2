@@ -65,7 +65,20 @@ Dispatcher.register(action => {
       BookStore.emitChange();
       break;
     case bookActionTypes.CREATE_BOOK:
+      _bookStore.book.bookList.push({
+        id: Math.max(..._bookStore.book.bookList.map(b => b.id)) + 1, // assign the highest id + 1
+        ...action.data,
+      });
       BookStore.emitChange();
+      break;
+    case bookActionTypes.UPDATE_BOOK:
+      {
+        const index = _bookStore.book.bookList.findIndex(
+          b => b.id === action.data.id,
+        );
+        _bookStore.book.bookList[index] = { ...action.data };
+        BookStore.emitChange();
+      }
       break;
     case bookActionTypes.DELETE_BOOK:
       BookStore.emitChange();
