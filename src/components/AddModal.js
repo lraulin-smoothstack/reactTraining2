@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus as addIcon } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-modal";
-import { makeNewBook } from "../factories";
 import { bookActions } from "../actions/bookActions";
+import { createBookWithoutId } from "../factories";
 
 const customStyles = {
   content: {
@@ -20,7 +22,14 @@ Modal.setAppElement("#app");
 const AddModal = () => {
   let subtitle;
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [newBook, setNewBook] = useState(makeNewBook());
+  const [newBook, setNewBook] = useState(
+    createBookWithoutId({
+      title: "[Title]",
+      author: "[Author Name]",
+      publisher: "[Publisher]",
+      pages: 0,
+    }),
+  );
 
   const openModal = () => {
     setIsOpen(true);
@@ -41,13 +50,17 @@ const AddModal = () => {
     setNewBook(book);
   };
 
-  const onSubmit = () => {
+  const handleSubmit = e => {
+    e.preventDefault();
     bookActions.addBook(newBook);
+    closeModal();
   };
 
   return (
-    <div>
-      <button onClick={openModal}>Add Book</button>
+    <div className="float-right" style={{ paddingRight: "10em" }}>
+      <button onClick={openModal}>
+        <FontAwesomeIcon icon={addIcon} />
+      </button>
       <Modal
         isOpen={modalIsOpen}
         onAfterOpen={afterOpenModal}
@@ -57,7 +70,7 @@ const AddModal = () => {
       >
         <h2 ref={_subtitle => (subtitle = _subtitle)}>Add Book</h2>
         <button onClick={closeModal}>close</button>
-        <form>
+        <form onSubmit={e => handleSubmit(e)}>
           Title:{" "}
           <input
             type="text"
@@ -86,7 +99,7 @@ const AddModal = () => {
             value={newBook.pages}
             onChange={e => handleChange(e)}
           />
-          <button onClick={() => onSubmit()}>Save</button>
+          <input type="submit" value="Submit" />
         </form>
       </Modal>
     </div>

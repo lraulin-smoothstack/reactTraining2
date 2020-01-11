@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 
-import { Header } from "./Header.js";
-import { Home } from "./Home.js";
+import { Header } from "./Header";
+import { Title } from "./Title";
 import { BookList } from "./BookList";
 import BookStore from "../stores/bookStore";
 
@@ -37,7 +37,7 @@ export const App = () => {
         <Route
           exact
           path="/"
-          render={() => <Home title="Library Management System" />}
+          render={() => <Title title="Library Management System" />}
         />
         <Route
           path="/books"

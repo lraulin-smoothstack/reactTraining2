@@ -4,9 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit as editIcon } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-modal";
 import { bookActions } from "../actions/bookActions";
-import { makeBook } from "../factories";
+import { createBookWithId } from "../factories";
 
-const emptyBook = makeBook();
+const emptyBook = createBookWithId();
 
 const customStyles = {
   content: {
@@ -48,8 +48,6 @@ const EditModal = ({ book = emptyBook } = {}) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log("EditModal: Submitting book update");
-    console.log(newBook);
     bookActions.updateBook(newBook);
     closeModal();
   };

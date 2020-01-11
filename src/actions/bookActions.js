@@ -1,7 +1,10 @@
 import Dispatcher from "../dispatcher/appDispatcher";
-import { makeNewBook, makeBook } from "../factories";
+import { createBookWithoutId, createBookWithId } from "../factories";
 
-const [emptyBook, emptyBookWithId] = [makeNewBook(), makeBook()];
+const [emptyBook, emptyBookWithId] = [
+  createBookWithoutId(),
+  createBookWithId(),
+];
 
 export const bookActionTypes = {
   READ_BOOKS_STARTED: "read_books_started",

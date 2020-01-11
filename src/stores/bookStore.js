@@ -1,20 +1,9 @@
 import Dispatcher from "../dispatcher/appDispatcher";
 import { EventEmitter } from "events";
 import { bookActionTypes } from "../actions/bookActions";
+import { createInitialBookStoreState } from "../factories";
 
 const CHANGE_EVENT = "change";
-
-export const createInitialBookStoreState = () => ({
-  book: {
-    bookList: [],
-    readState: {
-      pending: false,
-      success: false,
-      failure: false,
-    },
-    error: "",
-  },
-});
 
 let _bookStore = createInitialBookStoreState();
 
@@ -36,11 +25,7 @@ class BookStoreClass extends EventEmitter {
   }
 
   resetReadState() {
-    _bookStore.book.readState = {
-      pending: false,
-      success: false,
-      failure: false,
-    };
+    _bookStore.book.readState = createInitialBookStoreState().book.readState;
   }
 }
 

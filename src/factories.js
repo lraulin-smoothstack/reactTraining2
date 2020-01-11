@@ -1,6 +1,6 @@
 // For creating a new book object with user-supplied data. (No id because the
 // book has not yet been added to the database.)
-export const makeNewBook = ({
+export const createBookWithoutId = ({
   title = "",
   author = "",
   publisher = "",
@@ -13,7 +13,7 @@ export const makeNewBook = ({
 });
 
 // For filling an object from database data
-export const makeBook = ({
+export const createBookWithId = ({
   id = 0,
   title = "",
   author = "",
@@ -25,4 +25,16 @@ export const makeBook = ({
   author,
   publisher,
   pages,
+});
+
+export const createInitialBookStoreState = () => ({
+  book: {
+    bookList: [],
+    readState: {
+      pending: false,
+      success: false,
+      failure: false,
+    },
+    error: "",
+  },
 });

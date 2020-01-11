@@ -5,11 +5,11 @@ import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt as deleteIcon } from "@fortawesome/free-solid-svg-icons";
 import { bookActions } from "../actions/bookActions";
-import { makeBook } from "../factories";
-import AddBook from "./AddBook";
+import { createBookWithId } from "../factories";
+import AddModal from "./AddModal";
 import EditModal from "./EditModal";
 
-const emptyBook = makeBook();
+const emptyBook = createBookWithId();
 
 export const BookList = ({
   bookList = [],
@@ -77,10 +77,10 @@ export const BookList = ({
   }
 
   return (
-    <div>
+    <div className="container-fluid">
       <h1>Books</h1>
       {content}
-      <AddBook />
+      <AddModal />
     </div>
   );
 };

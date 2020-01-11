@@ -9,7 +9,6 @@ const AddBook = () => {
   const [pages, setPages] = useState(0);
 
   const handleSubmit = e => {
-    console.log("submit!");
     e.preventDefault();
     bookActions.addBook({ title, author, publisher, pages });
     setIsOpen(false);
