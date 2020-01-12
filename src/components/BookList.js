@@ -5,18 +5,16 @@ import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt as deleteIcon } from "@fortawesome/free-solid-svg-icons";
 import { bookActions } from "../actions/bookActions";
-import { createBookWithId } from "../factories";
-import AddModal from "./AddModal";
-import EditModal from "./EditModal";
+import { createBook } from "../factories";
+import BookModal from "./BookModal";
 
-const emptyBook = createBookWithId();
+const emptyBook = createBook();
 
-export const BookList = ({
+const BookList = ({
   bookList = [],
   readStateIsFailure = false,
   readStateIsPending = false,
   readStateIsSuccess = false,
-  readBooksError = "",
 } = {}) => {
   const onClickDelete = id => bookActions.deleteBook(id);
 
@@ -28,7 +26,7 @@ export const BookList = ({
       <td> {book.publisher} </td>
       <td> {book.pages} </td>
       <td>
-        <EditModal book={book} />
+        <BookModal book={book} />
         <button onClick={() => onClickDelete(book.id)}>
           <FontAwesomeIcon icon={deleteIcon} />
         </button>
@@ -71,7 +69,6 @@ export const BookList = ({
     content = (
       <div className="alert alert-danger" role="alert">
         Error while loading books!
-        {readBooksError}
       </div>
     );
   }
@@ -80,7 +77,10 @@ export const BookList = ({
     <div className="container-fluid">
       <h1>Books</h1>
       {content}
-      <AddModal />
+
+      <div className="float-right" style={{ paddingRight: "10em" }}>
+        <BookModal />
+      </div>
     </div>
   );
 };
@@ -90,5 +90,6 @@ BookList.propTypes = {
   readStateIsFailure: PropTypes.bool.isRequired,
   readStateIsSuccess: PropTypes.bool.isRequired,
   readStateIsPending: PropTypes.bool.isRequired,
-  readBooksError: PropTypes.string.isRequired,
 };
+
+export default BookList;

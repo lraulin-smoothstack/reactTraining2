@@ -3,7 +3,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-export const Title = ({ title = "[Page Title]" }) => (
+const Title = ({ title = "[Page Title]" }) => (
   <div className="jumbotron">
     <h1>{title}</h1>
   </div>
@@ -12,3 +12,5 @@ export const Title = ({ title = "[Page Title]" }) => (
 Title.propTypes = {
   title: PropTypes.string,
 };
+
+export default Title;

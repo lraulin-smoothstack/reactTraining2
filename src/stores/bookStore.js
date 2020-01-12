@@ -51,8 +51,8 @@ Dispatcher.register(action => {
       break;
     case bookActionTypes.CREATE_BOOK:
       _bookStore.book.bookList.push({
-        id: Math.max(..._bookStore.book.bookList.map(b => b.id)) + 1, // assign the highest id + 1
         ...action.data,
+        id: Math.max(..._bookStore.book.bookList.map(b => b.id)) + 1, // assign the highest id + 1
       });
       BookStore.emitChange();
       break;

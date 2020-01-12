@@ -1,9 +1,13 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus as addIcon } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlus as addIcon,
+  faEdit as editIcon,
+} from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-modal";
 import { bookActions } from "../actions/bookActions";
-import { createBookWithoutId } from "../factories";
+import { createBook } from "../factories";
 
 const customStyles = {
   content: {
@@ -19,17 +23,12 @@ const customStyles = {
 // Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement("#app");
 
-const AddModal = () => {
+const BookModal = ({ book = createBook() } = {}) => {
   let subtitle;
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [newBook, setNewBook] = useState(
-    createBookWithoutId({
-      title: "[Title]",
-      author: "[Author Name]",
-      publisher: "[Publisher]",
-      pages: 0,
-    }),
-  );
+  const [newBook, setNewBook] = useState(book);
+  const bookIsNew = !book.id;
+  const addOrEdit = bookIsNew ? "Add" : "Edit";
 
   const openModal = () => {
     setIsOpen(true);
@@ -52,23 +51,30 @@ const AddModal = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    bookActions.addBook(newBook);
+    console.log("book id = " + book.id);
+    if (bookIsNew) {
+      console.log("saving new book");
+      bookActions.addBook(newBook);
+    } else {
+      console.log("updating existing book");
+      bookActions.updateBook(newBook);
+    }
     closeModal();
   };
 
   return (
-    <div className="float-right" style={{ paddingRight: "10em" }}>
+    <>
       <button onClick={openModal}>
-        <FontAwesomeIcon icon={addIcon} />
+        <FontAwesomeIcon icon={bookIsNew ? addIcon : editIcon} />
       </button>
       <Modal
         isOpen={modalIsOpen}
         onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
         style={customStyles}
-        contentLabel="Add Book Modal"
+        contentLabel={addOrEdit + " Book Modal"}
       >
-        <h2 ref={_subtitle => (subtitle = _subtitle)}>Add Book</h2>
+        <h2 ref={_subtitle => (subtitle = _subtitle)}>{addOrEdit} Book</h2>
         <button onClick={closeModal}>close</button>
         <form onSubmit={e => handleSubmit(e)}>
           Title:{" "}
@@ -102,8 +108,12 @@ const AddModal = () => {
           <input type="submit" value="Submit" />
         </form>
       </Modal>
-    </div>
+    </>
   );
 };
 
-export default AddModal;
+BookModal.propTypes = {
+  book: PropTypes.object,
+};
+
+export default BookModal;

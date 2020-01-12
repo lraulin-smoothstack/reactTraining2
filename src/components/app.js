@@ -3,17 +3,16 @@
 import React, { useState, useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 
-import { Header } from "./Header";
-import { Title } from "./Title";
-import { BookList } from "./BookList";
+import Header from "./Header";
+import Title from "./Title";
+import BookList from "./BookList";
 import BookStore from "../stores/bookStore";
 
-export const App = () => {
+const App = () => {
   const [bookList, setBookList] = useState([]);
   const [readStateIsPending, setReadStateIsPending] = useState(false);
   const [readStateIsSuccess, setReadStateIsSuccess] = useState(false);
   const [readStateIsFailure, setReadStateIsFailure] = useState(false);
-  const [readBooksError, setReadBooksError] = useState("");
 
   const onBookChange = () => {
     console.log("app.js: BOOKS CHANGED!");
@@ -47,7 +46,6 @@ export const App = () => {
               readStateIsFailure={readStateIsFailure}
               readStateIsPending={readStateIsPending}
               readStateIsSuccess={readStateIsSuccess}
-              readBooksError={readBooksError}
             />
           )}
         />
@@ -55,3 +53,5 @@ export const App = () => {
     </div>
   );
 };
+
+export default App;

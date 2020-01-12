@@ -3,7 +3,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export const Header = () => (
+const Header = () => (
   <nav className="navbar navbar-inverse">
     <div className="container-fluid">
       <ul className="list-inline">
@@ -26,3 +26,5 @@ export const Header = () => (
     </div>
   </nav>
 );
+
+export default Header;

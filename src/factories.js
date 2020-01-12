@@ -13,7 +13,7 @@ export const createBookWithoutId = ({
 });
 
 // For filling an object from database data
-export const createBookWithId = ({
+export const createBook = ({
   id = 0,
   title = "",
   author = "",
