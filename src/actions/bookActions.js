@@ -1,7 +1,7 @@
 import Dispatcher from "../dispatcher/appDispatcher";
-import { createBookWithoutId, createBook } from "../factories";
+import { createBook } from "../factories";
 
-const [emptyBook, emptyBookWithId] = [createBookWithoutId(), createBook()];
+const emptyBook = createBook();
 
 export const bookActionTypes = {
   READ_BOOKS_STARTED: "read_books_started",
@@ -22,7 +22,7 @@ export const createDeleteBookAction = (id = 0) => ({
   data: id,
 });
 
-export const createUpdateBookAction = (book = emptyBookWithId) => ({
+export const createUpdateBookAction = (book = emptyBook) => ({
   actionType: bookActionTypes.UPDATE_BOOK,
   data: book,
 });
@@ -68,12 +68,8 @@ export const bookActions = {
   deleteBook(id = 0) {
     Dispatcher.dispatch(createDeleteBookAction(id));
   },
-  updateBook(book = emptyBookWithId) {
-    console.log(
-      "bookActions.js: preparing to dispatch update book: with action:",
-    );
+  updateBook(book = emptyBook) {
     const action = createUpdateBookAction(book);
-    console.log(action);
     Dispatcher.dispatch(action);
   },
 };
